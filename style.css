@@ -8,6 +8,9 @@
     --whiteNumbers: #FFFFFF;
     --whiteOperators: #E6E6E6;
     --orangeEqual: #F88764;
+    --operatorsActive: #8d8c8c;
+    --numbersActive: #d3d3d3;
+    --equalActive: #f77750;
 }
 
 *{
@@ -70,28 +73,32 @@ button{
     background-color: var(--whiteOperators);
 }
 
-.operators:active{
-    background-color: #8d8c8c;
-}
-
 .equal{
     grid-column: 4/5;
     grid-row: 3/6;
     background-color: var(--orangeEqual);
 }
 
-.equal:active{
-    background-color: #f77750;
-}
-
 .numbers{
     background-color: var(--whiteNumbers);
 }
 
-.numbers:active{
-    background-color: #d3d3d3;
+.clearAll, .decimal, .clearPrevious{
+    background-color: var(--whiteNumbers);
 }
 
-.numbers:active, .operators:active, .equal:active{
+.operators:active{
+    background-color: var(--operatorsActive);
+}
+
+.equal:active{
+    background-color: var(--equalActive);
+}
+
+.numbers:active, .clearAll:active, .decimal:active, .clearPrevious:active{
+    background-color: var(--numbersActive);
+}
+
+.numbers:active, .operators:active, .equal:active, .clearAll:active, .decimal:active, .clearPrevious:active{
     font-size: 1rem;
 }
