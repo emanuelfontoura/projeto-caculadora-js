@@ -7,11 +7,23 @@ function calculator(){
 
         // FUNÇÃO ADICIONAR ELEMENTO AO DISPLAY
         function clickKey(event){
+            const regexFirstNumber = /^[0-9.]$/
+            const regexOperator = /^[\+\-X\/]$/
             if (calculatorDisplay.innerText == '0'){
-                calculatorDisplay.innerText = event.currentTarget.innerText
+                if (regexFirstNumber.test(event.currentTarget.innerText)){ // VERIFICA SE O PRIMEIRO ELEMENTO DIGITADO É UM NÚMERO DE 0 A 9 OU UM PONTO "."
+                    if (event.currentTarget.innerText == "."){
+                        calculatorDisplay.innerText = "0."
+                    }else{
+                        calculatorDisplay.innerText = event.currentTarget.innerText
+                    }
+                }
             }else{
-                calculatorDisplay.innerText += event.currentTarget.innerText
+                if (!(regexOperator.test(event.currentTarget.innerText) == numberPrevious)){
+                    calculatorDisplay.innerText += event.currentTarget.innerText
+                }
             }
+            
+            var numberPrevious = regexOperator.test(event.currentTarget.innerText)
         }
 
         calculatorKeys.forEach((key) => {
@@ -36,6 +48,18 @@ function calculator(){
         clearAllButton.addEventListener('click', clearAllDisplay)
 
         //FUNÇÃO APAGAR NÚMERO ANTERIOR
+        function clearPreviousDisplay(){
+            const regexOneNumber = /^\d$/
+            if (regexOneNumber.test(calculatorDisplay.innerText)){
+                calculatorDisplay.innerText = "0"
+            }else{
+                calculatorDisplay.innerText = calculatorDisplay.innerText.substring(0, calculatorDisplay.innerText.length-1)
+            }
+        }
+
+        const clearPrevious = document.querySelector('.clearPrevious')
+        clearPrevious.addEventListener('click', clearPreviousDisplay)
+
 
     }
 
