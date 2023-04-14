@@ -1,22 +1,36 @@
-function calculator(){
-    const calculatorKeys = document.querySelectorAll('.calculatorKeys > .numbers, .calculatorKeys > .operators')
+var operationMemory = ""
+const calculatorKeys = document.querySelectorAll('.calculatorKeys > .numbers, .calculatorKeys > .operators')
+const calculatorDisplay = document.querySelector('.calculatorDisplay')
+const currentOperationDisplay = document.querySelector('.currentOperationDisplay')
+const regexFirstNumber = /^[0-9.]$/
+const regexOperatorAndDecimal = /^[\+\-\/X\.]$/
+const regexOperator = /[+\-X/]/
+const contEqual = 0
 
-    const calculatorDisplay = document.querySelector('.calculatorDisplay')
+function calculator(){
 
     if(calculatorKeys){
 
         // FUNÇÃO ADICIONAR ELEMENTO AO DISPLAY
         function clickKey(event){
-            const regexFirstNumber = /^[0-9.]$/
-            const regexOperator = /^[\+\-\/X\.]$/
+            
 
             if (calculatorDisplay.innerText == '0'){
                 if (regexFirstNumber.test(event.currentTarget.innerText)){ // VERIFICA SE O PRIMEIRO ELEMENTO DIGITADO É UM NÚMERO DE 0 A 9 OU UM PONTO "."
                     calculatorDisplay.innerText = event.currentTarget.innerText
                 }
             }else{
-                if (regexOperator.test(calculatorDisplay.innerText.slice(-1)) && regexOperator.test(event.currentTarget.innerText)){
+                if (contEqual >= 1){
+                    calculatorDisplay.innerText = "0"
+                    contEqual = 0
+                }
+
+                if (regexOperatorAndDecimal.test(calculatorDisplay.innerText.slice(-1)) && regexOperatorAndDecimal.test(event.currentTarget.innerText)){
                     return
+                }else if (regexOperator.test(event.currentTarget.innerText)){
+                    operationMemory += calculatorDisplay.innerText + event.currentTarget.innerText
+                    calculatorDisplay.innerText = "0"
+                    currentOperationDisplay.innerText = operationMemory
                 }else{
                     calculatorDisplay.innerText += event.currentTarget.innerText
                 }
@@ -30,7 +44,6 @@ function calculator(){
 
         // FUNÇÃO ADICIONAR "."
         function addDecimal(event){
-            const displayTextCopy = calculatorDisplay.innerText
           
             if (calculatorDisplay.innerText.slice(-1) == '' || /[+\-/*]/.test(calculatorDisplay.innerText.slice(-1))){
                 calculatorDisplay.innerText += "0."
@@ -48,7 +61,16 @@ function calculator(){
 
         // FUNÇÃO MOSTRAR RESULTADO 
         function calculatorResult(){
-            calculatorDisplay.innerText = eval(calculatorDisplay.innerText.replace(/X/g, "*"))
+            operationMemory += calculatorDisplay.innerText
+            if (regexOperator.test(operationMemory.slice(-1))){
+                const newOperationMemory = operationMemory.substring(0, operationMemory.length - 1)
+                calculatorDisplay.innerText = eval(newOperationMemory.replace(/X/g, "*")) 
+            }else{
+                calculatorDisplay.innerText = eval(operationMemory.replace(/X/g, "*"))
+            }
+            contEqual++
+            operationMemory = ""
+            currentOperationDisplay.innerText = "0"
         }
 
         const equalButton = document.querySelector('.equal')
@@ -57,6 +79,8 @@ function calculator(){
         // FUNÇÃO LIMPAR TUDO
         function clearAllDisplay(){
             calculatorDisplay.innerText = '0'
+            operationMemory = ""
+            currentOperationDisplay.innerText = "0"
         }
 
         const clearAllButton = document.querySelector('.clearAll')
