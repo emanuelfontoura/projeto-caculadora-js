@@ -65,12 +65,13 @@ function calculator(){
             if (regexOperator.test(operationMemory.slice(-1))){
                 const newOperationMemory = operationMemory.substring(0, operationMemory.length - 1)
                 calculatorDisplay.innerText = eval(newOperationMemory.replace(/X/g, "*")) 
+                operationMemory = ""
+                currentOperationDisplay.innerText = "0"
             }else{
                 calculatorDisplay.innerText = eval(operationMemory.replace(/X/g, "*"))
+                operationMemory = ""
+                currentOperationDisplay.innerText = "0"
             }
-            contEqual++
-            operationMemory = ""
-            currentOperationDisplay.innerText = "0"
         }
 
         const equalButton = document.querySelector('.equal')
