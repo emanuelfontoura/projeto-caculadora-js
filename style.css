@@ -64,7 +64,7 @@ body{
     align-items: center;
     justify-items: right;
     padding: 30px 20px 20px 20px;
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 
 .calculatorKeys{
@@ -78,17 +78,17 @@ button{
     cursor: pointer;
 }
 
-.operators, .numbers, .equal, .clearAll, .clearPrevious, .decimal{
+.operators, .numbers, .equal, .clearAll, .clearPrevious, .decimal, .invert{
     transition: 0.2s;
 }
 
-.operators{
+.operators, .invert, .clearPrevious{
     background-color: var(--whiteOperators);
 }
 
 .equal{
     grid-column: 4/5;
-    grid-row: 3/6;
+    grid-row: 4/6;
     background-color: var(--orangeEqual);
 }
 
@@ -96,7 +96,7 @@ button{
     background-color: var(--whiteNumbers);
 }
 
-.clearAll, .decimal, .clearPrevious{
+.clearAll, .decimal{
     background-color: var(--whiteNumbers);
 }
 
@@ -108,10 +108,60 @@ button{
     background-color: var(--equalActive);
 }
 
-.numbers:active, .clearAll:active, .decimal:active, .clearPrevious:active{
+.numbers:active, .clearAll:active, .decimal:active, .clearPrevious:active, .invert:active{
     background-color: var(--numbersActive);
 }
 
-.numbers:active, .operators:active, .equal:active, .clearAll:active, .decimal:active, .clearPrevious:active{
+.numbers:active, .operators:active, .equal:active, .clearAll:active, .decimal:active, .clearPrevious:active, .invert:active{
     font-size: 1rem;
+}
+
+@media (max-width: 450px){
+    .calculator{
+        grid-template-rows: auto 280px;
+    }
+
+    .calculatorDisplay{
+        padding: 25px 15px 15px 15px;
+        font-size: 1.3rem;
+    }
+
+    .calculatorKeys{
+        grid-template-columns: repeat(4, 80px);
+    }
+
+    button{
+        font-size: 1rem;
+    }
+
+    .currentOperationDisplay{
+        right: 20px;
+        top: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 358px){
+    .calculator{
+        grid-template-rows: auto 260px;
+    }
+
+    .calculatorDisplay{
+        padding: 20px 10px 10px 10px;
+        font-size: 0.9rem;
+    }
+
+    .calculatorKeys{
+        grid-template-columns: repeat(4, 60px);
+    }
+
+    button{
+        font-size: 0.8rem;
+    }
+
+    .currentOperationDisplay{
+        right: 20px;
+        top: 10px;
+        font-size: 0.6rem;
+    }
 }

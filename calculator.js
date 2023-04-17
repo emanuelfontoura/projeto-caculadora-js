@@ -5,7 +5,7 @@ const currentOperationDisplay = document.querySelector('.currentOperationDisplay
 const regexFirstNumber = /^[0-9.]$/
 const regexOperatorAndDecimal = /^[\+\-\/X\.]$/
 const regexOperator = /[+\-X/]/
-const contEqual = 0
+const regexSubtract = /-/
 
 function calculator(){
 
@@ -19,24 +19,15 @@ function calculator(){
                 if (regexFirstNumber.test(event.currentTarget.innerText)){ // VERIFICA SE O PRIMEIRO ELEMENTO DIGITADO É UM NÚMERO DE 0 A 9 OU UM PONTO "."
                     calculatorDisplay.innerText = event.currentTarget.innerText
                 }
-            }else{
-                if (contEqual >= 1){
-                    calculatorDisplay.innerText = "0"
-                    contEqual = 0
-                }
-
-                if (regexOperatorAndDecimal.test(calculatorDisplay.innerText.slice(-1)) && regexOperatorAndDecimal.test(event.currentTarget.innerText)){
-                    return
-                }else if (regexOperator.test(event.currentTarget.innerText)){
-                    operationMemory += calculatorDisplay.innerText + event.currentTarget.innerText
-                    calculatorDisplay.innerText = "0"
-                    currentOperationDisplay.innerText = operationMemory
-                }else{
-                    calculatorDisplay.innerText += event.currentTarget.innerText
-                }
+            }else if (regexOperator.test(event.currentTarget.innerText)){
+                operationMemory += calculatorDisplay.innerText + event.currentTarget.innerText
+                calculatorDisplay.innerText = "0"
+                currentOperationDisplay.innerText = operationMemory
+            }else if (calculatorDisplay.innerText.length <= 20 && currentOperationDisplay.innerText.length + calculatorDisplay.innerText.length <= 38){
+                calculatorDisplay.innerText += event.currentTarget.innerText
             }
-            
         }
+        
 
         calculatorKeys.forEach((key) => {
             key.addEventListener('click', clickKey)
@@ -49,7 +40,7 @@ function calculator(){
                 calculatorDisplay.innerText += "0."
             }else if (calculatorDisplay.innerText == "0"){
                 calculatorDisplay.innerText = "0."
-            }else if (/\..*?\./.test(calculatorDisplay.innerText) || /\.{2,}/.test(calculatorDisplay.innerText)){
+            }else if (calculatorDisplay.innerText.includes('.')){
                 return
             }else{
                 calculatorDisplay.innerText += "."
@@ -101,6 +92,18 @@ function calculator(){
         clearPrevious.addEventListener('click', clearPreviousDisplay)
 
 
+        // FUNÇÃO INVERTER O SINAL DO VALOR
+        function invert(){
+            if (regexSubtract.test(operationMemory.slice(-1))){
+                const result = +calculatorDisplay.innerText * (-1)
+                calculatorDisplay.innerText = "(" + result.toString() + ")"
+            }else{
+                calculatorDisplay.innerText = +calculatorDisplay.innerText * (-1)
+            }
+        }
+    
+        const buttonInvert = document.querySelector('.invert')
+        buttonInvert.addEventListener('click', invert)
     }
 
 }
