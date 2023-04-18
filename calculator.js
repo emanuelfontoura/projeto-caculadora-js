@@ -53,16 +53,10 @@ function calculator(){
         // FUNÇÃO MOSTRAR RESULTADO 
         function calculatorResult(){
             operationMemory += calculatorDisplay.innerText
-            if (regexOperator.test(operationMemory.slice(-1))){
-                const newOperationMemory = operationMemory.substring(0, operationMemory.length - 1)
-                calculatorDisplay.innerText = eval(newOperationMemory.replace(/X/g, "*")) 
-                operationMemory = ""
-                currentOperationDisplay.innerText = "0"
-            }else{
-                calculatorDisplay.innerText = eval(operationMemory.replace(/X/g, "*"))
-                operationMemory = ""
-                currentOperationDisplay.innerText = "0"
-            }
+            operationMemory = operationMemory.replace('--', '+')
+            calculatorDisplay.innerText = eval(operationMemory.replace(/X/g, "*"))
+            operationMemory = ""
+            currentOperationDisplay.innerText = "0"
         }
 
         const equalButton = document.querySelector('.equal')
@@ -94,12 +88,7 @@ function calculator(){
 
         // FUNÇÃO INVERTER O SINAL DO VALOR
         function invert(){
-            if (regexSubtract.test(operationMemory.slice(-1))){
-                const result = +calculatorDisplay.innerText * (-1)
-                calculatorDisplay.innerText = "(" + result.toString() + ")"
-            }else{
-                calculatorDisplay.innerText = +calculatorDisplay.innerText * (-1)
-            }
+            calculatorDisplay.innerText = +calculatorDisplay.innerText * (-1)
         }
     
         const buttonInvert = document.querySelector('.invert')
